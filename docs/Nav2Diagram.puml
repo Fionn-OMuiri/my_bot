@@ -1,0 +1,70 @@
+@startuml Nav2Diagram
+package "Robot"{
+    package ros2_control{
+        node diff_controller{
+        } 
+        node joint_broadcaster{
+        }
+    }
+    node robot_state_publisher{
+    }
+    
+    (Motor Output) #FF9999
+}
+
+package PC{
+    (Pose Input) #99FF99
+
+    node teleop_twist_keyboard{
+    }
+    node twist_mux{   
+    }
+
+    node rviz2{
+    }
+    node static_transform_publisher{
+    }
+    package Nav2{
+        node map_server{
+        }
+        node smoother_server{
+        }
+        node behaviour_server{
+        }
+        node planner_server{
+        }
+        node controller_server{
+        }
+        node velocity_smoother{
+        }
+        node life_cycle_manager{
+        }
+        node bt_navigator_server{
+        }
+    }
+}
+
+node transforms{
+}
+
+teleop_twist_keyboard --> twist_mux
+twist_mux --> diff_controller
+diff_controller --> transforms
+robot_state_publisher --> transforms
+joint_broadcaster --> robot_state_publisher
+map_server --> rviz2
+static_transform_publisher -->  transforms
+transforms --> rviz2
+controller_server --> velocity_smoother
+velocity_smoother --> twist_mux
+controller_server <--> bt_navigator_server
+planner_server  <--> bt_navigator_server
+behaviour_server <--> bt_navigator_server
+rviz2 --> bt_navigator_server
+smoother_server <--> bt_navigator_server
+map_server --> smoother_server
+transforms --> bt_navigator_server
+(Pose Input) --> rviz2
+diff_controller --> (Motor Output)
+
+@enduml

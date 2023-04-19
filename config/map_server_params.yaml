@@ -1,0 +1,3 @@
+map_server:
+    ros__parameters:
+        map: "cubicle_map.yaml"
