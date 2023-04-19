@@ -1,7 +1,66 @@
-## Robot Package Template
+# Demo Robot Ros
 
-This is a GitHub template. You can make your own copy by clicking the green "Use this template" button.
+ROS2 package containing files for both Demo Robot simulation and physical control, including Nav2.
 
-It is recommended that you keep the repo/package name the same, but if you do change it, ensure you do a "Find all" using your IDE (or the built-in GitHub IDE by hitting the `.` key) and rename all instances of `my_bot` to whatever your project's name is.
+## Project Structure
 
-Note that each directory currently has at least one file in it to ensure that git tracks the files (and, consequently, that a fresh clone has direcctories present for CMake to find). These example files can be removed if required (and the directories can be removed if `CMakeLists.txt` is adjusted accordingly).
+A high-level view of the projects structure:
+- launch: Launch files
+- description: URDF files 
+- config: Configuration files
+- maps: maps used for Nav2
+- docs: Documentation and diagrams
+
+## Dependencies
+
+To be determined
+
+## Building
+
+Build the package in the desired workspace:
+```
+colcon build --symlink-install
+```
+
+## Running
+
+### Simulation
+
+Launch Gazebo simulation of Demo Robot:
+```
+ros2 launch demo_bot_ros launch_sim.launch.py use_ros2_control:=true
+```
+
+### Physcial Robot
+
+Launch Demo Robot:
+```
+ros2 launch demo_bot launch_robot.launch.py
+```
+
+Run `teleop_twist` to control the Robot:
+```
+ros2 run teleop_twist_keyboard teleop_twist_keyboard
+```
+
+### Nav2
+
+Run rviz2 to input Goal Poses
+```
+rviz2
+```
+Note: in order to view the map, add the map in Rviz using `/map` as the topic before launching the map server.
+
+Launch the `map_server`:
+```
+ros2 launch retrieval_robot_ros map_server.launch.py
+```
+
+Run Nav2 bringup:
+```
+ros2 launch nav2_bringup navigation_launch.py use_sim_time:=true
+```
+
+## To-Do
+
+- Constrain Nav2 to Grid
