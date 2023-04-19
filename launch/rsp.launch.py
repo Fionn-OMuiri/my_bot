@@ -32,6 +32,8 @@ def generate_launch_description():
         parameters=[params]
     )
 
+    print("Fionn's debug.  use_sim_time: " + str(use_sim_time))
+
 
     # Launch!
     return LaunchDescription([
